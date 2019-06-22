@@ -97,7 +97,15 @@ You can use `tagify` (tags to **tagging**s) and `to_array_of_keys` (hash-key to 
          title: Marvel's The Avengers
          hulk: smash
 
-1. `layout`
+1. `layout` of post
+
+       {% assign taggings = page.tags | tagify %}
+       {% for tagging in taggings %}
+           {{ tagging.title }}
+           {{ tagging.data.hulk }}
+       {% endfor %}
+
+1. `layout` of tag-page
 
        {{ page.tagging.title }}
        {{ page.tagging.data.hulk }}
@@ -111,7 +119,7 @@ You can use `tagify` (tags to **tagging**s) and `to_array_of_keys` (hash-key to 
          - Marvel's The Avengers
        ---
 
-1. `layout`
+1. `layout` of tag-page
 
        <a href="{{ page.tagging.url | relative_url }}">
            {{ page.tagging.title | escape }}
