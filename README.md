@@ -1,6 +1,6 @@
 # Jekyll Tiny Tag
 
-Generate each tag-page and use tag-information for [Jekyll](https://jekyllrb.com)
+[Jekyll](https://jekyllrb.com) Plugin to generate each tag-page and use tag-information
 
 ## Features
 
