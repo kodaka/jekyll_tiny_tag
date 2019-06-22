@@ -141,4 +141,4 @@ You can use `tagify` (tags to **tagging**s) and `to_array_of_keys` (hash-key to 
 
 ## License
 
-(MIT)[https://github.com/kodaka/jekyll_tiny_tag/blob/master/LICENSE]
+[MIT](https://github.com/kodaka/jekyll_tiny_tag/blob/master/LICENSE)
