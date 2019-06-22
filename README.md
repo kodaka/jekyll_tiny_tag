@@ -1,30 +1,36 @@
 # Jekyll Tiny Tag
 
-[Jekyll](https://jekyllrb.com) Plugin to generate each tag-page and use tag-information
+[Jekyll](https://jekyllrb.com) Plugin to generate each tag-page and use tag-information.
 
 ## Features
 
-    <h1>Awsome Post A</h1>
-    <h2>Tags for the Post</h2>
-    <ol>
-        <li><a href="/tags/avengers4/">Endgame</a></li>
-        <li><a href="/tags/avengers3/">Infinity War</a></li>
-    </ol>
+~~~html
+<h1>Awsome Post A</h1>
+<h2>Tags for the Post</h2>
+<ol>
+    <li><a href="/tags/avengers4/">Endgame</a></li>
+    <li><a href="/tags/avengers3/">Infinity War</a></li>
+</ol>
+~~~
 
-    <h1>Tag: Endgame (123 posts)</h1>
-    <ol>
-        <li><a href="/2019/04/27/awsome-post-a/">Awsome Post A</a></li>
-        ...
-    </ol>
+~~~html
+<h1>Tag: Endgame (123 posts)</h1>
+<ol>
+    <li><a href="/2019/04/27/awsome-post-a/">Awsome Post A</a></li>
+    ...
+</ol>
+~~~
 
-    <h1>All Tags (456 tags)</h1>
-    <ol>
-        <li><a href="/tags/avengers2/">Age of Ultron</a></li>
-        <li><a href="/tags/avengers4/">Endgame</a></li>
-        <li><a href="/tags/avengers3/">Infinity War</a></li>
-        <li><a href="/tags/avengers1/">Marvel's The Avengers</a></li>
-        ...
-    </ol>
+~~~html
+<h1>All Tags (456 tags)</h1>
+<ol>
+    <li><a href="/tags/avengers2/">Age of Ultron</a></li>
+    <li><a href="/tags/avengers4/">Endgame</a></li>
+    <li><a href="/tags/avengers3/">Infinity War</a></li>
+    <li><a href="/tags/avengers1/">Marvel's The Avengers</a></li>
+    ...
+</ol>
+~~~
 
 ## Installation
 
@@ -32,117 +38,138 @@ Put `jekyll_tiny_tag.rb` into your `_plugins` directory
 
 ## Usage
 
-Tag information produced by this plugin is named **tagging**
+Tag information produced by this plugin is named **tagging**.
 
 ### Pages
 
 1. Prepare your `layout` for each tag-page.
-   Page of tag-page already has **tagging**.
-   you can use:
+   `page` of tag-page already has **tagging**.
 
-       page.tagging.tag   # is the tag you wrote in your front matter
-       page.tagging.data  # is your hash data for the tag described in _data/tags.yml
-       page.tagging.title # is page.tagging.data.title or tag itself
-       page.tagging.slug  # is slugified tag
-       page.tagging.url   # is tag-page url
-       page.tagging.posts # are posts filtered by the tag
+   |Liquid|meaning|eg|
+   |:-|:-|:-|
+   |`page.tagging.tag`|the `tag` you wrote in your `front matter`|avengers part 4|
+   |`page.tagging.data`|your tag data for the `tag` described in `_data/tags.yml`|`{'title': 'Endgame', 'hulk': 'smash'}`|
+   |`page.tagging.title`|`page.tagging.data.title` or `tag` itself|Endgame|
+   |`page.tagging.slug`|slugified `tag`|avengers-part-4|
+   |`page.tagging.url`|`url` of tag-page|/tags/avengers-part-4/|
+   |`page.tagging.posts`|`posts` filtered by the `tag`|`[post1, post2, ...]`|
 
 1. (Optional) Set config into `_config.yml`
 
-       # defaults
-       tiny_tag:
-         dir: tags        # where to output
-         layout: tag.html # means _layouts/tag.html for each tag-page
-         slug:            # jekyll slug options for dirname of tag-page
-           mode: default
-           cased: false
+   ~~~yaml
+   # defaults
+   tiny_tag:
+     dir: tags        # where to output
+     layout: tag.html # means _layouts/tag.html for each tag-page
+     slug:            # jekyll slug options for tagging.slug
+       mode: default
+       cased: false
+   ~~~
 
 1. (Optional) Describe tag data in `_data/tags.yml`
 
-       # key is tag itself
-       # value is any hash data you want to use in layout
-       avengers:
-         title: Marvel's The Avengers
-         hulk: smash
-         budapest:
-           - clint
-           - natasha
+   ~~~yaml
+   # key is tag itself
+   # value is any hash data you want to use in layout
+   avengers:
+     title: Marvel's The Avengers
+     hulk: smash
+     budapest:
+       - clint
+       - natasha
+   ~~~
 
 1. Run Jekyll
 
 ### Filters
 
-Pages except tag-page do not have **tagging**(s),
+`page` except tag-page do not have **tagging**(s),
 you have to get with filters.
 You can use `tagify` (tags to **tagging**s)
 and `to_array_of_keys` (hash-key to array)
 
-    alphabetically:
-    {% assign taggings = page.tags | tagify %}
-    {% assign taggings = site.tags | to_array_of_keys | tagify %}
+~~~html
+sort-mode: default (alphabetically)
+{% assign taggings = page.tags | tagify %}
+{% assign taggings = site.tags | to_array_of_keys | tagify %}
 
-    latest date:
-    {% assign taggings = page.tags | tagify: 'date' %}
-    {% assign taggings = site.tags | to_array_of_keys | tagify: 'date' %}
+sort-mode: date (latest date)
+{% assign taggings = page.tags | tagify: 'date' %}
+{% assign taggings = site.tags | to_array_of_keys | tagify: 'date' %}
+~~~
 
 ### Examples
 
-#### Example 1
+#### Using Slugified Tags
 
-1. `Front Matter` of post
+1. `front matter` of post
 
-       ---
-       tags:
-         - avengers
-       ---
+   ~~~yaml
+   ---
+   tags:
+     - avengers
+   ---
+   ~~~
 
 1. `_data/tags.yml`
 
-       avengers:
-         title: Marvel's The Avengers
-         hulk: smash
+   ~~~yaml
+   avengers:
+     title: Marvel's The Avengers
+     hulk: smash
+   ~~~
 
 1. `layout` of post
 
-       {% assign taggings = page.tags | tagify %}
-       {% for tagging in taggings %}
-           {{ tagging.title }}
-           {{ tagging.data.hulk }}
-       {% endfor %}
+   ~~~html
+   {% assign taggings = page.tags | tagify %}
+   {% for tagging in taggings %}
+       {{ tagging.title }}
+       {{ tagging.data.hulk }}
+   {% endfor %}
+   ~~~
 
 1. `layout` of tag-page
 
-       {{ page.tagging.title }}
-       {{ page.tagging.data.hulk }}
+   ~~~html
+   {{ page.tagging.title }}
+   {{ page.tagging.data.hulk }}
+   ~~~
 
-#### Example 2
+#### Using Entitled Tags
 
-1. `Front Matter` of post
+1. `front matter` of post
 
-       ---
-       tags:
-         - Marvel's The Avengers
-       ---
+   ~~~yaml
+   ---
+   tags:
+     - Marvel's The Avengers
+   ---
+   ~~~
 
 1. `layout` of tag-page
 
-       <a href="{{ page.tagging.url | relative_url }}">
-           {{ page.tagging.title | escape }}
-       </a>
+   ~~~html
+   <a href="{{ page.tagging.url | relative_url }}">
+      {{ page.tagging.title | escape }}
+   </a>
+   ~~~
 
-#### Example 3
+#### Page of All-Tags
 
 1. `./tags.html`
 
-       ---
-       permalink: /tags/
-       ---
-       {% assign taggings = site.tags | to_array_of_keys | tagify %}
-       {% for tagging in taggings %}
-           <a href="{{ tagging.url | relative_url }}">
-               {{ tagging.title | escape }}
-           </a>
-       {% endfor %}
+   ~~~
+   ---
+   permalink: /tags/
+   ---
+   {% assign taggings = site.tags | to_array_of_keys | tagify %}
+   {% for tagging in taggings %}
+       <a href="{{ tagging.url | relative_url }}">
+           {{ tagging.title | escape }}
+       </a>
+   {% endfor %}
+   ~~~
 
 ## Contribution
 
