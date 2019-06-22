@@ -36,7 +36,9 @@ Tag information produced by this plugin is named **tagging**
 
 ### Pages
 
-1. Prepare your `layout` for each tag-page, you can use
+1. Prepare your `layout` for each tag-page.
+   Page of tag-page already has **tagging**.
+   you can use:
 
        page.tagging.tag   # is the tag you wrote in your front matter
        page.tagging.data  # is your hash data for the tag described in _data/tags.yml
@@ -47,7 +49,7 @@ Tag information produced by this plugin is named **tagging**
 
 1. (Optional) Set config into `_config.yml`
 
-       # default configs
+       # defaults
        tiny_tag:
          dir: tags        # where to output
          layout: tag.html # means _layouts/tag.html for each tag-page
@@ -70,7 +72,10 @@ Tag information produced by this plugin is named **tagging**
 
 ### Filters
 
-You can use `tagify` (tags to **tagging**s) and `to_array_of_keys` (hash-key to array)
+Pages except tag-page do not have **tagging**(s),
+you have to get with filters.
+You can use `tagify` (tags to **tagging**s)
+and `to_array_of_keys` (hash-key to array)
 
     alphabetically:
     {% assign taggings = page.tags | tagify %}
