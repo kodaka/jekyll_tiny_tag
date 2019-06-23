@@ -79,10 +79,12 @@ module JekyllTinyTag
 
             taggings = tags.map{|tag| Tagging.new(@context.registers[:site], tag)}
             
-            if sort_mode == 'date' then
+            if sort_mode === 'date' then
                 taggings.sort_by{|t| [-t.posts[0].date.to_time.to_i, t.title, t.tag]}
-            else
+            elsif sort_mode === 'title' then
                 taggings.sort_by{|t| [t.title, t.tag]}
+            else
+                taggings
             end
         end
     end    

@@ -89,13 +89,17 @@ You can use `tagify` (tags to **tagging**s)
 and `to_array_of_keys` (hash-key to array)
 
 ~~~html
-sort-mode: default (alphabetically)
+sort-mode: none (default, as-is)
 {% assign taggings = page.tags | tagify %}
 {% assign taggings = site.tags | to_array_of_keys | tagify %}
 
-sort-mode: date (latest date)
+sort-mode: date (latest post date)
 {% assign taggings = page.tags | tagify: 'date' %}
 {% assign taggings = site.tags | to_array_of_keys | tagify: 'date' %}
+
+sort-mode: title (alphabetically)
+{% assign taggings = page.tags | tagify: 'title' %}
+{% assign taggings = site.tags | to_array_of_keys | tagify: 'title' %}
 ~~~
 
 ### Examples
@@ -163,7 +167,7 @@ sort-mode: date (latest date)
    ---
    permalink: /tags/
    ---
-   {% assign taggings = site.tags | to_array_of_keys | tagify %}
+   {% assign taggings = site.tags | to_array_of_keys | tagify: 'title' %}
    {% for tagging in taggings %}
        <a href="{{ tagging.url | relative_url }}">
            {{ tagging.title | escape }}
