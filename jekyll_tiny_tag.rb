@@ -13,9 +13,9 @@ module JekyllTinyTag
 
     class Tagging < Liquid::Drop
         attr_reader :tag
-        def initialize(site, tag)
+        def initialize(site, config, tag)
             @site   = site
-            @config = Config.new(site)
+            @config = config
             @tag    = tag
         end
 
@@ -44,7 +44,7 @@ module JekyllTinyTag
         def generate(site)
             config = Config.new(site)
             site.tags.each_key do |tag|
-                tagging = Tagging.new(site, tag)
+                tagging = Tagging.new(site, config, tag)
                 site.pages << Page.new(
                     site, 
                     site.source, 
@@ -77,7 +77,9 @@ module JekyllTinyTag
         def tagify(tags, sort_mode = nil)
             sort_mode ||= 'default'
 
-            taggings = tags.map{|tag| Tagging.new(@context.registers[:site], tag)}
+            site     = @context.registers[:site]
+            config   = Config.new(site)
+            taggings = tags.map{|tag| Tagging.new(site, config, tag)}
             
             if sort_mode === 'date' then
                 taggings.sort_by{|t| [-t.posts[0].date.to_time.to_i, t.title, t.tag]}
